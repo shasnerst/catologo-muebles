@@ -1,0 +1,258 @@
+/* Variables de color y valores reutilizables */
+:root{
+  --siena:#A0522D;
+  --salvia:#87A96B;
+  --alabastro:#F5E6D3;
+  --oro:#D4A437;
+  --rosa:#C47A6D;
+
+  --radius:16px;
+  --bg:#ffffff;
+  --ink:#2B211D;
+  --muted:#6B554C;
+  --card-border:#E6D8C8;
+}
+
+/* caja y tamaño base */
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,"Noto Sans",sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+}
+
+/* Contenedor principal y encabezado de página */
+.container{max-width:1200px;margin:0 auto;padding:32px 24px}
+.header{margin-bottom:18px}
+h1{
+  margin:0 0 10px;
+  font-size:clamp(1.6rem,2.8vw,2.4rem);
+  font-weight:800;
+  color:var(--siena);
+}
+
+/* Búsqueda: input con ícono */
+.search{
+  width:100%;max-width:560px;
+  padding:12px 14px 12px 44px;
+  border-radius:12px;border:1px solid var(--card-border);
+  background:#fff no-repeat 12px 50%;
+  background-size:18px 18px;
+  outline:none;transition:border-color .2s,box-shadow .2s,background-image .2s;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236B554C' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='7'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>");
+}
+.search::placeholder{color:#8F7D73}
+.search:focus{
+  border-color:var(--salvia);
+  box-shadow:0 0 0 4px rgba(135,169,107,.22);
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2387A96B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='7'/><line x1='21' y1='21' x2='16.65' y2='16.65'/></svg>");
+}
+.search-help{margin:6px 2px 2px;color:var(--muted);font-size:.9rem}
+.status{margin:8px 2px 0;color:var(--muted);font-size:.9rem}
+
+/* accesibilidad: oculto visualmente para lectores de pantalla */
+.sr-only{
+  position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0;
+}
+
+/* Bloque de categoría: tarjeta contenedora */
+.category-block{
+  margin:26px 0 38px;
+  padding:12px 12px 18px;
+  border:1px solid #ffffff;
+  border-radius:18px;
+  background:#ffffff;
+  box-shadow:0 6px 18px rgba(160,82,45,.08);
+}
+.category-title{
+  margin:0 0 12px;
+  font-size:1.25rem;
+  font-weight:800;
+  color:var(--siena);
+}
+
+/* Carrusel / pista de tarjetas */
+.carousel{position:relative}
+.track{
+  display:flex;gap:16px;
+  overflow-x:auto;padding:6px 6px 12px;
+  scroll-behavior:smooth;scroll-snap-type:x mandatory;
+  -webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;
+}
+.track:focus{outline:none}
+.track::-webkit-scrollbar{height:8px}
+.track::-webkit-scrollbar-thumb{background:var(--rosa);border-radius:8px}
+.track{scrollbar-width:thin}
+
+/* botones del carrusel */
+.carousel-btn{
+  position:absolute;top:50%;transform:translateY(-50%);
+  height:36px;width:36px;display:grid;place-items:center;
+  border-radius:999px;border:1px solid var(--siena);background:#fff;color:var(--siena);
+  box-shadow:0 4px 14px rgba(0,0,0,.08);
+  cursor:pointer;user-select:none;z-index:5;
+}
+.carousel-btn:hover{background:var(--siena);color:#fff;border-color:var(--siena)}
+.carousel-btn:active{background:var(--oro)}
+.carousel-btn[disabled]{opacity:.5;cursor:not-allowed}
+.carousel-btn.prev{left:6px}
+.carousel-btn.next{right:6px}
+
+/* Tarjeta de producto */
+.card{
+  flex:0 0 260px;background:#fff;border:1px solid var(--card-border);
+  border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 6px 18px rgba(160,82,45,.12);
+  transition:transform .15s,box-shadow .15s;
+  scroll-snap-align:start;
+}
+.card:hover{transform:translateY(-2px);box-shadow:0 12px 28px rgba(160,82,45,.18)}
+
+/* estilo uniforme para alternancia */
+.track .card:nth-child(even){background:#fff;border-color:var(--card-border);box-shadow:0 6px 18px rgba(160,82,45,.12)}
+.track .card:nth-child(even):hover{box-shadow:0 12px 28px rgba(160,82,45,.18)}
+
+/* contenedor de imagen */
+.thumb{
+  position:relative;background:var(--alabastro);
+  aspect-ratio:4/3;overflow:hidden;
+}
+.thumb img{
+  width:100%;height:100%;object-fit:cover;display:block;transition:transform .35s;
+}
+.card:hover .thumb img{transform:scale(1.05)}
+
+/* overlay oscuro en hover */
+.thumb::after{
+  content:"";position:absolute;inset:0;
+  background:linear-gradient(0deg,rgba(160,82,45,.30),rgba(0,0,0,.10));
+  opacity:0;transition:opacity .2s;pointer-events:none;z-index:1;
+}
+
+/* botón flotante "Ver" */
+.btn-overlay{
+  position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) scale(.98);
+  padding:10px 16px;border-radius:999px;background:var(--siena);color:#fff;text-decoration:none;font-weight:700;
+  box-shadow:0 6px 20px rgba(160,82,45,.35);
+  opacity:0;transition:opacity .2s,transform .2s;z-index:2;
+}
+.btn-overlay:hover{background:var(--oro)}
+.btn-overlay:focus-visible{outline:3px solid rgba(135,169,107,.6);outline-offset:2px}
+
+/* mostrar overlay en interacción */
+.card:hover .thumb::after,
+.card:hover .btn-overlay{opacity:1}
+.card:hover .btn-overlay{transform:translate(-50%,-50%) scale(1)}
+.thumb:focus-within .btn-overlay{opacity:1;transform:translate(-50%,-50%) scale(1)}
+
+/* en pantallas táctiles mostrar botón por defecto */
+@media (hover:none){
+  .thumb::after{opacity:.18}
+  .btn-overlay{opacity:1;transform:translate(-50%,-50%) scale(1)}
+}
+
+/* Barra de navegación fija en la parte superior */
+.site-nav{
+  position:sticky;
+  top:0;
+  left:0;
+  right:0;
+  width:100%;
+  z-index:50;
+  background:#fff;
+  border-bottom:1px solid #f0f0f0;
+  box-shadow:0 4px 14px rgba(0,0,0,.04);
+}
+.site-nav .nav-inner{
+  max-width: 1200px; margin: 0 auto; padding: 12px 24px;
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px;
+  box-sizing:border-box;
+}
+
+/* logotipo / marca */
+.brand{ display:inline-flex; align-items:center; gap:10px; text-decoration:none; }
+.brand-logo{ height:34px; width:auto; display:block; }
+
+/* botón hamburguesa (oculto en escritorio) */
+.nav-toggle{
+  display:none; width:40px; height:40px; border:1px solid var(--card-border);
+  background:#fff; border-radius:10px; cursor:pointer;
+  align-items:center; justify-content:center; gap:4px;
+}
+.nav-toggle span{
+  display:block; width:18px; height:2px; background: var(--ink);
+}
+.nav-toggle[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(1){ transform: translateY(4px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(3){ transform: translateY(-4px) rotate(-45deg); }
+
+/* menú principal */
+.nav-menu{ display:flex; gap:42px; list-style:none; margin:0; padding:0; justify-content:center; }
+.nav-menu a{
+  text-decoration:none; color: var(--ink);
+  font-weight:600; letter-spacing:.2px;
+  padding: 8px 4px; border-radius: 8px;
+  transition: color .15s, background-color .15s;
+}
+.nav-menu a:hover{ color: var(--siena); background: rgba(160,82,45,.08); }
+.nav-menu a.is-active{ color: var(--siena); }
+
+/* acciones a la derecha (íconos) */
+.nav-actions{ display:flex; align-items:center; gap:12px; }
+.icon-btn{
+  width:40px; height:40px; display:grid; place-items:center;
+  border-radius:12px; border:1px solid transparent; color: var(--ink);
+  text-decoration:none; background:#fff;
+  transition: border-color .15s, color .15s, background-color .15s, box-shadow .15s;
+}
+.icon-btn:hover{ color: var(--siena); border-color: #eee; background: #fff; box-shadow: 0 3px 10px rgba(0,0,0,.06); }
+
+/* indicador de cantidad en el carrito */
+.badge-wrap{ position: relative; }
+.badge{
+  position:absolute; right:-4px; top:-4px;
+  min-width:18px; height:18px; padding:0 4px;
+  border-radius:999px; background: var(--siena); color:#fff;
+  font-size:.72rem; font-weight:700; display:flex; align-items:center; justify-content:center;
+}
+
+/* etiqueta con nombre del producto (aparece en hover) */
+.card{ position:relative; }
+.card-title{
+  position:absolute;
+  left:50%;
+  top:10px;
+  transform:translate(-50%,-8px);
+  background:rgba(255,255,255,0.96);
+  color:#A0522D;
+  font-weight:400;
+  padding:6px 12px;
+  border-radius:999px;
+  box-shadow:0 6px 18px rgba(160,82,45,.12);
+  white-space:nowrap;
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .18s ease, transform .18s ease;
+  z-index:6;
+}
+
+/* animación de aparición de la etiqueta */
+.card:hover .card-title,
+.card:focus-within .card-title{
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+/* en dispositivos táctiles mostrar la etiqueta siempre */
+@media (hover:none){
+  .card-title{ opacity:1; transform:translate(-50%,0); }
+}
+
+/* ajustes para pantallas pequeñas */
+@media (max-width:480px){
+  .container{padding:22px 16px}
+  .carousel-btn.prev{left:4px}
+  .carousel-btn.next{right:4px}
+}
